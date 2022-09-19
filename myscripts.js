@@ -30,11 +30,8 @@ const gameBoard = (function () {
         clickor = !clickor;
     }
 
-
-
-
-
     let start = document.querySelector('button');
+
     start.addEventListener('click', () => {
         let p1name = document.getElementById("plyr1").value;
         let p2name = document.getElementById("plyr2").value;
@@ -70,8 +67,9 @@ const gameBoard = (function () {
             }
         }
 
-
         function generateCleanBoard(){
+
+            start.innerHTML = "Restart";
             Board.innerHTML = "";
             flow.resultbar.innerText = "";
             clickor = true;
@@ -128,8 +126,14 @@ const flow = (function(){
     let resultbar = document.getElementById("results");
     let resString = ""
 
+    let button = document.querySelector("button");
+
 
     function checkBoard(board) {
+
+        if(board.includes(0) == false){
+            resultbar.innerText = "A Tie!";
+        }
 
         let currentChar = gameBoard.getChar();
 
@@ -146,6 +150,7 @@ const flow = (function(){
             && board[i] != 0){
                 resultbar.innerText = resString;
                 gameBoard.changeClickor();
+                button.innerText = "Play Again";
             }
         }
 
@@ -155,6 +160,8 @@ const flow = (function(){
             && board[i] != 0){
                 resultbar.innerText = resString;
                 gameBoard.changeClickor();
+                button.innerText = "Play Again";
+
             }
         }
 
@@ -162,15 +169,20 @@ const flow = (function(){
             && board[0] != 0){
             resultbar.innerText = resString;
             gameBoard.changeClickor();
+            button.innerText = "Play Again";
+
         }
 
         if(board[6] == board[4] && board[4] == board[2] 
             && board[6] != 0){
             resultbar.innerText = resString;
             gameBoard.changeClickor();
-        }
+            button.innerText = "Play Again";
 
+        }
     }
+
+
 
     return {checkBoard,resultbar};
 
