@@ -1,22 +1,58 @@
 
 const gameBoard = (function () {
-    let board = [0,0,0,0,0,0,0,0,0];
 
+    let p1;
+    let p2;
+    let char;
+
+
+    function getP1name(){
+        return(p1.name);
+    }
+    function getP2name(){
+        return(p2.name);
+    }
+
+    function getChar(){
+        return(char);
+    }
+
+    let start = document.querySelector('button');
+    start.addEventListener('click', () => {
+        let p1name = document.getElementById("plyr1").value;
+        let p2name = document.getElementById("plyr2").value;
+
+        let p1symb = document.getElementById("plyr1symb").value;
+        let p2symb = document.getElementById("plyr2symb").value;
+
+        if(p1name != "" && p2name != "" && p1symb != "" && p2symb != "" 
+        && p1symb != p2symb)
+        {
+        p1 = player(p1name,p1symb);
+        p2 = player(p2name,p2symb);
+
+        char = p1.char;
+
+        generateCleanBoard();
+        }
+    });
+
+
+    let board = [0,0,0,0,0,0,0,0,0];
 
     let Board = document.querySelector('#Board')
 
-    let char = "X";
-
         function changeTurn(place){
-            if(char == "X"){
+            if(char == p1.char){
                 board[place] = 2;
-                char = "O";
+                char = p2.char;
             }
             else{
                 board[place] = 1;
-                char = "X";
+                char = p1.char;
             }
         }
+
 
         function generateCleanBoard(){
             Board.innerHTML = "";
@@ -60,15 +96,16 @@ const gameBoard = (function () {
         }
 
     return{board,
-    generateCleanBoard};
-
+    generateCleanBoard,getChar,getP1name,getP2name};
 })();
 
 
 const flow = (function(){
+    //const winningPositions = [[0,1,2],[0,4,8],[0,3,6]
+    //[1,4,7],[2,5,8],[3,4,5],[6,7,8],[6,4,2]];
 
-    const winningPositions = [[0,1,2],[0,4,8],[0,3,6]
-    [1,4,7],[2,5,8],[3,4,5],[6,7,8],[6,4,2]];
+    let resultbar = document.getElementById("results");
+
 
     function checkBoard(board) {
 
@@ -101,21 +138,16 @@ const flow = (function(){
             alert("You Win");
             gameBoard.generateCleanBoard();
         }
-
-
-
-
+        
     }
 
     return {checkBoard};
 
 })();
 
-let player = function (name) {
-
-
-    
-
-
-
+let player = function (name,char) {
+    return{
+        name:name,
+        char:char
+    }
 };
