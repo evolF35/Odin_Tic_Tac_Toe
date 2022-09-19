@@ -2,6 +2,7 @@
 const gameBoard = (function () {
     let board = [0,0,0,0,0,0,0,0,0];
 
+
     let Board = document.querySelector('#Board')
 
     let char = "X";
@@ -46,6 +47,7 @@ const gameBoard = (function () {
 
             if(area.innerText == ""){
             let jar = document.createElement("div");
+            jar.setAttribute("class","char");
             jar.innerText = char;
 
             area.appendChild(jar);
@@ -65,23 +67,47 @@ const gameBoard = (function () {
 
 const flow = (function(){
 
-    const winningPositions = [[1,2,3],[1,5,9],[1,4,7]
-    [2,5,8],[3,6,9],[4,5,6],[7,8,9],[7,5,3]];
+    const winningPositions = [[0,1,2],[0,4,8],[0,3,6]
+    [1,4,7],[2,5,8],[3,4,5],[6,7,8],[6,4,2]];
 
     function checkBoard(board) {
 
-
-        for(let i = 0; i < 3; i++){
+        for(let i = 0; i < 7; i = i + 3){
             if(board[i] == board[i+1] 
             && board[i+1] == board[i+2]
             && board[i] != 0){
+                alert("You Win");
                 gameBoard.generateCleanBoard();
             }
-
         }
+
+        for(let i = 0; i < 3; i++){
+            if(board[i] == board[i+3] 
+            && board[i+3] == board[i+6]
+            && board[i] != 0){
+                alert("You Win");
+                gameBoard.generateCleanBoard();
+            }
+        }
+
+        if(board[0] == board[4] && board[4] == board[8]
+            && board[0] != 0){
+            alert("You Win");
+            gameBoard.generateCleanBoard();
+        }
+
+        if(board[6] == board[4] && board[4] == board[2] 
+            && board[6] != 0){
+            alert("You Win");
+            gameBoard.generateCleanBoard();
+        }
+
+
+
+
     }
 
-    return (checkBoard);
+    return {checkBoard};
 
 })();
 
