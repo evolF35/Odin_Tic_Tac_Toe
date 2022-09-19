@@ -1,10 +1,18 @@
 
+let player = function (name,char) {
+    return{
+        name:name,
+        char:char
+    }
+};
+
 const gameBoard = (function () {
 
-    let p1;
-    let p2;
+    let p1 = player("3","4");
+    let p2 = player("1","2");
     let char;
 
+    let clickor = true;
 
     function getP1name(){
         return(p1.name);
@@ -12,10 +20,19 @@ const gameBoard = (function () {
     function getP2name(){
         return(p2.name);
     }
-
     function getChar(){
         return(char);
     }
+    function getP1Symb(){
+        return(p1.char);
+    }
+    function changeClickor(){
+        clickor = !clickor;
+    }
+
+
+
+
 
     let start = document.querySelector('button');
     start.addEventListener('click', () => {
@@ -56,6 +73,8 @@ const gameBoard = (function () {
 
         function generateCleanBoard(){
             Board.innerHTML = "";
+            flow.resultbar.innerText = "";
+            clickor = true;
         
         for(let i = 0; i < 9; i++){
 
@@ -69,8 +88,10 @@ const gameBoard = (function () {
                 let index = box.id;
                 index = index.replace("box_","");
                 index = +index;
-
+                if(clickor == true)
+                {
                 addCharacter(index);
+                }
             });
 
             Board.appendChild(box);
@@ -96,7 +117,7 @@ const gameBoard = (function () {
         }
 
     return{board,
-    generateCleanBoard,getChar,getP1name,getP2name};
+    generateCleanBoard,getChar,getP1name,getP2name,getP1Symb,changeClickor};
 })();
 
 
@@ -105,16 +126,26 @@ const flow = (function(){
     //[1,4,7],[2,5,8],[3,4,5],[6,7,8],[6,4,2]];
 
     let resultbar = document.getElementById("results");
+    let resString = ""
 
 
     function checkBoard(board) {
+
+        let currentChar = gameBoard.getChar();
+
+        if(currentChar == gameBoard.getP1Symb()){
+            resString = `${gameBoard.getP2name()} Wins!`;
+        }
+        else{
+            resString = `${gameBoard.getP1name()} Wins!`;
+        }
 
         for(let i = 0; i < 7; i = i + 3){
             if(board[i] == board[i+1] 
             && board[i+1] == board[i+2]
             && board[i] != 0){
-                alert("You Win");
-                gameBoard.generateCleanBoard();
+                resultbar.innerText = resString;
+                gameBoard.changeClickor();
             }
         }
 
@@ -122,32 +153,25 @@ const flow = (function(){
             if(board[i] == board[i+3] 
             && board[i+3] == board[i+6]
             && board[i] != 0){
-                alert("You Win");
-                gameBoard.generateCleanBoard();
+                resultbar.innerText = resString;
+                gameBoard.changeClickor();
             }
         }
 
         if(board[0] == board[4] && board[4] == board[8]
             && board[0] != 0){
-            alert("You Win");
-            gameBoard.generateCleanBoard();
+            resultbar.innerText = resString;
+            gameBoard.changeClickor();
         }
 
         if(board[6] == board[4] && board[4] == board[2] 
             && board[6] != 0){
-            alert("You Win");
-            gameBoard.generateCleanBoard();
+            resultbar.innerText = resString;
+            gameBoard.changeClickor();
         }
-        
+
     }
 
-    return {checkBoard};
+    return {checkBoard,resultbar};
 
 })();
-
-let player = function (name,char) {
-    return{
-        name:name,
-        char:char
-    }
-};
