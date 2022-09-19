@@ -21,6 +21,9 @@ const gameBoard = (function () {
             Board.innerHTML = "";
         
         for(let i = 0; i < 9; i++){
+
+            board[i] = 0;
+
             let box = document.createElement("div");    
             box.setAttribute("id",`box_${i}`);
             box.classList.add("box");
@@ -48,6 +51,8 @@ const gameBoard = (function () {
             area.appendChild(jar);
 
             changeTurn(place);
+
+            flow.checkBoard(board);
         }
 
         }
@@ -63,10 +68,16 @@ const flow = (function(){
     const winningPositions = [[1,2,3],[1,5,9],[1,4,7]
     [2,5,8],[3,6,9],[4,5,6],[7,8,9],[7,5,3]];
 
+    function checkBoard(board) {
 
-    function checkBoard() {
-        for(let i = 0; i < gameBoard.board.length; i++){
-            
+
+        for(let i = 0; i < 3; i++){
+            if(board[i] == board[i+1] 
+            && board[i+1] == board[i+2]
+            && board[i] != 0){
+                gameBoard.generateCleanBoard();
+            }
+
         }
     }
 
